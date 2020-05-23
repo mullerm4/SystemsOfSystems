@@ -65,7 +65,7 @@ while True:
 	cpu_temp = cpu.temperature
 	print("CPU-Temperature: %.3f C" % cpu_temp)
 
-	temp_diff = cpu_temp - temp
+	temp_diff = 2*temp -cpu_temp
 	print("Temperature difference %.3f C" % temp_diff)
 
 	cpu_usage = psutil.cpu_percent()
