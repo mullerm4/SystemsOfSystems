@@ -3,6 +3,7 @@ from gpiozero import CPUTemperature
 import time
 import os
 import requests
+import psutil
 
 
 sense = SenseHat()
@@ -13,45 +14,28 @@ cpu = CPUTemperature()
 host_name = os.uname()[1]
 post_adress = "http://192.168.1.37:8080"
  
-temp_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version="1.0" ttl="0">
- <write msgformat="odf">
-   <msg>
-     <Objects xmlns="http://www.opengroup.org/xsd/odf/1.0/">
-       <Object>
-         <id>"""+host_name+"""</id>
-         <InfoItem name="temperature">
-           <value>%s</value>
-         </InfoItem>
-       </Object>
-     </Objects>
-   </msg>
- </write>
-</omiEnvelope>"""
-
-cpu_temp_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version="1.0" ttl="0">
- <write msgformat="odf">
-   <msg>
-     <Objects xmlns="http://www.opengroup.org/xsd/odf/1.0/">
-       <Object>
-         <id>"""+host_name+"""</id>
-         <InfoItem name="CPU_temperature">
-           <value>%s</value>
-         </InfoItem>
-       </Object>
-     </Objects>
-   </msg>
- </write>
-</omiEnvelope>"""
 
 
 
-humid_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version="1.0" ttl="0">
+request_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version="1.0" ttl="0">
  <write msgformat="odf">
    <msg>
      <Objects xmlns="http://www.opengroup.org/xsd/odf/1.0/">
        <Object>
          <id>"""+host_name+"""</id>
          <InfoItem name="humidity">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="temperature">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="CPU_Temperature">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="CPU_usage">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="Memory_usage">
            <value>%s</value>
          </InfoItem>
        </Object>
@@ -71,16 +55,22 @@ while True:
 		sense = SenseHat()
 		humidity = sense.get_humidity()
 		print("Humidity: %.3f %%rH" % humidity)
-		requests.post(post_adress, humid_r % humidity)
+
 
 		time.sleep(2)
 		temp = sense.get_temperature()
 		print("Temperature: %.3f C" % temp)
-		requests.post(post_adress, temp_r % temp)
+
 
 		cpu_temp = cpu.temperature
 		print("CPU-Temperature: %.3f C" % cpu_temp)
-		requests.post(post_adress, cpu_temp_r % cpu_temp)
-		start_time = time.time()
 
+		cpu_usage = psutil.cpu_percent()
+		print("CPU-usage: %.3f %%" % cpu_usage)
+
+		memory_usage = psutil.virtual_memory()
+		print("RAM-usage: %.3f %%" % memory_usage)
+
+		requests.post(post_adress, request_r % (humidity, temp, cpu_temp, cpu_usage, memory_usage))
+		start_time = time.time()
 
