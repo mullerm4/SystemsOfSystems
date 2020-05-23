@@ -43,28 +43,25 @@ request_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version
 sense = SenseHat()
 
 while True:
-	time.sleep(1)
-	if time.time()- start_time > 1:
-		
 
-		humidity = sense.get_humidity()
-		print("Humidity: %.3f %%rH" % humidity)
+	time.sleep(3)
 
+	humidity = sense.get_humidity()
+	print("Humidity: %.3f %%rH" % humidity)
 
-		time.sleep(2)
-		temp = sense.get_temperature()
-		print("Temperature: %.3f C" % temp)
+	temp = sense.get_temperature()
+	print("Temperature: %.3f C" % temp)
 
 
-		cpu_temp = cpu.temperature
-		print("CPU-Temperature: %.3f C" % cpu_temp)
+	cpu_temp = cpu.temperature
+	print("CPU-Temperature: %.3f C" % cpu_temp)
 
-		cpu_usage = psutil.cpu_percent()
-		print("CPU-usage: %.3f %%" % cpu_usage)
+	cpu_usage = psutil.cpu_percent()
+	print("CPU-usage: %.3f %%" % cpu_usage)
 
-		memory_usage = psutil.virtual_memory()[2]
-		print("RAM-usage: %.3f %%" % memory_usage)
+	memory_usage = psutil.virtual_memory()[2]
+	print("RAM-usage: %.3f %%" % memory_usage)
 
-		requests.post(post_adress, request_r % (humidity, temp, cpu_temp, cpu_usage, memory_usage))
-		start_time = time.time()
+	requests.post(post_adress, request_r % (humidity, temp, cpu_temp, cpu_usage, memory_usage))
+
 
