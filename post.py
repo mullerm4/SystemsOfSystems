@@ -23,14 +23,20 @@ request_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version
      <Objects xmlns="http://www.opengroup.org/xsd/odf/1.0/">
        <Object>
          <id>"""+host_name+"""</id>
-         <InfoItem name="sensors">
-           <humidity>%s</humidity>
-           <temperature>%s</temperature>
-           <cpu_temperature>%s</cpu_temperature>
+         <InfoItem name="humidity">
+           <value>%s</value>
          </InfoItem>
-         <InfoItem name="res_utilization">
-           <cpu_usage>%s</cpu_usage>
-           <memory_usage>%s</memory_usage>
+         <InfoItem name="temperature">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="CPU_Temperature">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="CPU_usage">
+           <value>%s</value>
+         </InfoItem>
+         <InfoItem name="Memory_usage">
+           <value>%s</value>
          </InfoItem>
        </Object>
      </Objects>
