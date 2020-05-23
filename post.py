@@ -68,7 +68,7 @@ while True:
 		cpu_usage = psutil.cpu_percent()
 		print("CPU-usage: %.3f %%" % cpu_usage)
 
-		memory_usage = psutil.virtual_memory()
+		memory_usage = psutil.virtual_memory()[2]
 		print("RAM-usage: %.3f %%" % memory_usage)
 
 		requests.post(post_adress, request_r % (humidity, temp, cpu_temp, cpu_usage, memory_usage))
