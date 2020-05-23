@@ -26,7 +26,7 @@ request_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version
          <InfoItem name="sensors">
            <humidity>%s</humidity>
            <temperature>%s</temperature>
-           <cpu_temperature></cpu_temperature>
+           <cpu_temperature>%s</cpu_temperature>
          </InfoItem>
          <InfoItem name="res_utilization">
            <cpu_usage>%s</cpu_usage>
@@ -40,13 +40,13 @@ request_r ="""<omiEnvelope xmlns="http://www.opengroup.org/xsd/omi/1.0/" version
 
 
 
-
+sense = SenseHat()
 
 while True:
 	time.sleep(1)
 	if time.time()- start_time > 1:
 		
-		sense = SenseHat()
+
 		humidity = sense.get_humidity()
 		print("Humidity: %.3f %%rH" % humidity)
 
