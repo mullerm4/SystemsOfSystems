@@ -78,6 +78,6 @@ while True:
 
 
 
-	requests.post(post_adress, request_r % (humidity, temp, cpu_temp, cpu_usage, memory_usage))
+	requests.post(post_adress, request_r % (humidity, temp, cpu_temp, temp_diff, cpu_usage, memory_usage))
 
 
